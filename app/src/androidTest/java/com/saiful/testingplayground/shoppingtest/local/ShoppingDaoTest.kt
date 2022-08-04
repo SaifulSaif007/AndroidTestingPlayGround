@@ -22,11 +22,11 @@ class ShoppingDaoTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var database : ShoppingDB
+    private lateinit var database: ShoppingDB
     private lateinit var dao: ShoppingDao
 
     @Before
-    fun setup(){
+    fun setup() {
         database = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(),
             ShoppingDB::class.java
@@ -36,13 +36,13 @@ class ShoppingDaoTest {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         database.close()
     }
 
     @Test
     fun insetShoppingItem() = runBlocking {
-        val shoppingItem = ShoppingItem( 1,"a", 22f )
+        val shoppingItem = ShoppingItem(1, "a", 22f)
         dao.insertItem(shoppingItem)
 
         val allItem = dao.observeAll().getOrAwaitValue()
@@ -51,7 +51,7 @@ class ShoppingDaoTest {
 
     @Test
     fun deleteShoppingItem() = runBlocking {
-        val shoppingItem = ShoppingItem( 1,"a", 22f )
+        val shoppingItem = ShoppingItem(1, "a", 22f)
         dao.insertItem(shoppingItem)
         dao.deleteItem(shoppingItem)
 
@@ -61,10 +61,10 @@ class ShoppingDaoTest {
     }
 
     @Test
-    fun observeTotalPrice()  = runBlocking {
-        val shoppingItem1 = ShoppingItem( 1,"a", 22f )
-        val shoppingItem2 = ShoppingItem( 2,"b", 22f )
-        val shoppingItem3 = ShoppingItem( 3,"c", 22f )
+    fun observeTotalPrice() = runBlocking {
+        val shoppingItem1 = ShoppingItem(1, "a", 22f)
+        val shoppingItem2 = ShoppingItem(2, "b", 22f)
+        val shoppingItem3 = ShoppingItem(3, "c", 22f)
         dao.insertItem(shoppingItem1)
         dao.insertItem(shoppingItem2)
         dao.insertItem(shoppingItem3)
@@ -72,4 +72,17 @@ class ShoppingDaoTest {
         val total = dao.observeTotal().getOrAwaitValue()
         assertThat(total).isEqualTo(66f)
     }
+
+    @Test
+    fun updateItem() = runBlocking {
+        val shoppingItem = ShoppingItem(1, "a", 22f)
+        dao.insertItem(shoppingItem)
+
+        shoppingItem.name = "b"
+        dao.updateItem(shoppingItem)
+
+        val allItem = dao.selectItem(1).getOrAwaitValue()
+        assertThat(allItem.name).isEqualTo("b")
+    }
+
 }
