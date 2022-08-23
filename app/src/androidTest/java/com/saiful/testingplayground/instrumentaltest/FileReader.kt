@@ -8,7 +8,7 @@ object FileReader {
     fun readStringFromFile(fileName: String): String {
         try {
             val inputStream =
-                (InstrumentationRegistry.getInstrumentation().context.applicationContext).assets.open(
+                InstrumentationRegistry.getInstrumentation().context.applicationContext.assets.open(
                     fileName
                 )
             val builder = StringBuilder()
