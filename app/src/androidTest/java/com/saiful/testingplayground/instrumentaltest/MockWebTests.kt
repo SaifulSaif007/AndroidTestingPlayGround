@@ -31,12 +31,11 @@ class MockWebTests {
             .build()
             .create(NetworkService::class.java)
 
-        //server.start()
     }
 
     @After
     fun tearDown(){
-        //server.shutdown()
+        server.shutdown()
     }
 
     private fun enqueueMockResponse(
@@ -44,7 +43,8 @@ class MockWebTests {
         responseCode: Int = 200,
     ) {
         javaClass.classLoader?.let {
-            val inputStream = it.getResourceAsStream(fileName)
+            //val inputStream = it.getResourceAsStream(fileName)
+           // val source = inputStream.source().buffer()
             val mockResponse = MockResponse()
             mockResponse.setResponseCode(responseCode)
             mockResponse.setBody(FileReader.readStringFromFile(fileName))
