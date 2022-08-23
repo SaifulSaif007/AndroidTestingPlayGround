@@ -1,4 +1,4 @@
-package com.saiful.testingplayground.shoppingtest.local
+package com.saiful.testingplayground.unittest.shoppingtest.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
@@ -6,8 +6,8 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.google.common.truth.Truth.assertThat
-import com.saiful.testingplayground.shoppingtest.model.ShoppingItem
-import com.saiful.testingplayground.util.getOrAwaitValue
+import com.saiful.testingplayground.unittest.shoppingtest.model.ShoppingItem
+import com.saiful.testingplayground.unittest.util.getOrAwaitValue
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before

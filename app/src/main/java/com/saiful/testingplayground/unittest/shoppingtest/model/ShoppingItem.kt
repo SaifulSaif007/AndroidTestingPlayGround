@@ -1,4 +1,4 @@
-package com.saiful.testingplayground.shoppingtest.model
+package com.saiful.testingplayground.unittest.shoppingtest.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,4 +1,4 @@
-package com.saiful.testingplayground.util
+package com.saiful.testingplayground.unittest.util
 
 import android.content.Context
 

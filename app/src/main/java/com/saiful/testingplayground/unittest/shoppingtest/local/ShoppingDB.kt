@@ -1,8 +1,8 @@
-package com.saiful.testingplayground.shoppingtest.local
+package com.saiful.testingplayground.unittest.shoppingtest.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.saiful.testingplayground.shoppingtest.model.ShoppingItem
+import com.saiful.testingplayground.unittest.shoppingtest.model.ShoppingItem
 
 @Database(
     entities = [ShoppingItem::class],
