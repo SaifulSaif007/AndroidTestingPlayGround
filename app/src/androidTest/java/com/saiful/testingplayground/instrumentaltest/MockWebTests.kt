@@ -1,6 +1,5 @@
 package com.saiful.testingplayground.instrumentaltest
 
-import androidx.test.espresso.IdlingRegistry
 import com.google.common.truth.Truth.assertThat
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import com.saiful.testingplayground.instrumentaltest.service.NetworkService
@@ -15,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.Retrofit
+import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 
 @RunWith(JUnit4::class)
@@ -43,31 +43,34 @@ class MockWebTests {
         responseCode: Int = 200,
     ) {
         javaClass.classLoader?.let {
-            //val inputStream = it.getResourceAsStream(fileName)
-           // val source = inputStream.source().buffer()
+            val inputStream = it.getResourceAsStream(fileName)
+            val source = inputStream.source().buffer()
             val mockResponse = MockResponse()
             mockResponse.setResponseCode(responseCode)
-            mockResponse.setBody(FileReader.readStringFromFile(fileName))
+            mockResponse.setBody(source.readString(Charsets.UTF_8))
             server.enqueue(mockResponse)
         }
     }
 
     @Test
-    fun testSuccessResponse(){
-//        server.dispatcher = object : okhttp3.mockwebserver.Dispatcher(){
-//            override fun dispatch(request: RecordedRequest): MockResponse {
-//                return MockResponse()
-//                    .setResponseCode(200)
-//                    .setBody(FileReader.readStringFromFile("posts.json"))
-//            }
-//
-//        }
+    fun test_with_success_response(){
         runBlocking {
             enqueueMockResponse("posts.json")
-            val responseBody = service.getPost()
-            val request = server.takeRequest()
-            assertThat(responseBody).isNotNull()
+            val responseBody = service.getPost().awaitResponse()
+            val post = responseBody.body()
+            assertThat(post?.get(0)?.id).isEqualTo(1)
+            assertThat(post).isNotNull()
 
+        }
+    }
+
+    @Test
+    fun test_right_api_call(){
+        runBlocking {
+            enqueueMockResponse("posts.json")
+            service.getPost().awaitResponse()
+            val request = server.takeRequest()
+            assertThat(request.path).isEqualTo("/posts")
         }
     }
 }
