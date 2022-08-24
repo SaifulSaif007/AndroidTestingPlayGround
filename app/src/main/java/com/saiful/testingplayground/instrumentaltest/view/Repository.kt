@@ -6,5 +6,6 @@ class Repository {
 
     private val apiService = RetrofitService().service
 
-    fun getposts() = apiService.getPost()
+    suspend fun getPosts() = apiService.getPost()
+
 }

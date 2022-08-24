@@ -14,7 +14,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.Retrofit
-import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 
 @RunWith(JUnit4::class)
@@ -56,10 +55,9 @@ class MockWebTests {
     fun test_with_success_response(){
         runBlocking {
             enqueueMockResponse("posts.json")
-            val responseBody = service.getPost().awaitResponse()
-            val post = responseBody.body()
-            assertThat(post?.get(0)?.id).isEqualTo(1)
-            assertThat(post).isNotNull()
+            val responseBody = service.getPost()
+            assertThat(responseBody[0].id).isEqualTo(1)
+            assertThat(responseBody).isNotNull()
 
         }
     }
@@ -68,7 +66,7 @@ class MockWebTests {
     fun test_right_api_call(){
         runBlocking {
             enqueueMockResponse("posts.json")
-            service.getPost().awaitResponse()
+            service.getPost()
             val request = server.takeRequest()
             assertThat(request.path).isEqualTo("/posts")
         }
