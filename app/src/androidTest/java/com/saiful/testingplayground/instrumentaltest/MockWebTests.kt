@@ -33,7 +33,7 @@ class MockWebTests {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         server.shutdown()
     }
 
@@ -52,7 +52,7 @@ class MockWebTests {
     }
 
     @Test
-    fun test_with_success_response(){
+    fun test_posts_with_success_response() {
         runBlocking {
             enqueueMockResponse("posts.json")
             val responseBody = service.getPost()
@@ -63,7 +63,17 @@ class MockWebTests {
     }
 
     @Test
-    fun test_right_api_call(){
+    fun test_comment_success_response() {
+        runBlocking {
+            enqueueMockResponse("comments.json")
+            val responseBody = service.getPostComments(id = 1)
+            assertThat(responseBody[0].id).isEqualTo(1)
+            assertThat(responseBody).isNotNull()
+        }
+    }
+
+    @Test
+    fun test_right_api_call() {
         runBlocking {
             enqueueMockResponse("posts.json")
             service.getPost()
