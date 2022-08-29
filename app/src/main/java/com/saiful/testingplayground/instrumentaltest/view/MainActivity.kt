@@ -9,7 +9,7 @@ import com.saiful.testingplayground.R
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainVM
+    lateinit var viewModel: MainVM
     private lateinit var getBtn: Button
     private lateinit var textView: TextView
 
